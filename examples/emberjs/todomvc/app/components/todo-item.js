@@ -34,8 +34,8 @@ export default Ember.Component.extend({
 
 		toggleCompleted(e) {
 			let todo = this.get('todo');
-			Ember.set(todo, 'completed', e.target.checked);
-			this.get('repo').persist();
+      todo.completed = e.target.checked;
+      todo.save();
 		},
 
 		removeTodo() {

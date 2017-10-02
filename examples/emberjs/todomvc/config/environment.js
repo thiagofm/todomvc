@@ -3,6 +3,9 @@
 module.exports = function (environment) {
 	var ENV = {
 		modulePrefix: 'todomvc',
+    'ember-cli-mirage': {
+      enabled: true
+    },
 		environment: environment,
 		baseURL: null,
 		locationType: 'hash',

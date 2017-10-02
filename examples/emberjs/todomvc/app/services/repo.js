@@ -1,26 +1,21 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend({
+  store: Ember.inject.service(),
 	lastId: 0,
-	data: null,
+
 	findAll() {
-		return this.get('data') ||
-			this.set('data', JSON.parse(window.localStorage.getItem('todos') || '[]'));
+		return this.set('data', this.get('store').findAll('item'));
 	},
 
 	add(attrs) {
-		let todo = Object.assign({ id: this.incrementProperty('lastId') }, attrs);
-		this.get('data').pushObject(todo);
-		this.persist();
-		return todo;
+		var item = this.get('store').createRecord('item', attrs);
+    return item.save();
 	},
 
 	delete(todo) {
-		this.get('data').removeObject(todo);
-		this.persist();
-	},
-
-	persist() {
-		window.localStorage.setItem('todos', JSON.stringify(this.get('data')));
+    this.get('store').find('item', todo.id).then(function (item) {
+      item.destroyRecord();
+    });
 	}
 });
